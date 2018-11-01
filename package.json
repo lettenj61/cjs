@@ -1,0 +1,7 @@
+{
+  "name": "es",
+  "version": "0.1.0",
+  "description": "Sketchy replacement and extension for `node -p`",
+  "author": "lettenj61",
+  "license": "MIT"
+}
