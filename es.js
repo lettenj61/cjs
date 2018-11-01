@@ -13,7 +13,10 @@ if (typeof code === 'undefined') {
 const _g = 'fs,os,path,util'.split(',').reduce((ctx, k) => {
   ctx[k] = require(k);
   return ctx;
-}, { $: require });
+}, {
+  $: require,
+  $$: req => require(require.resolve(req, { paths: [process.cwd()] }))
+});
 const _eval = chunk => {
   const input = chunk.trim().replace(/\r\n/g, '\n').split('\n');
   (opt['a'] ? [input] : input).forEach(self => {
