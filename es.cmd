@@ -1,5 +1,5 @@
 @echo off
 
-setlocal EnableDelayedExpansion
+setlocal enableDelayedExpansion
 
 node "%~dp0\.\es.js" %*
