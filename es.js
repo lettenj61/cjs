@@ -38,7 +38,7 @@ const __eval = chunk => {
   });
 };
 
-if (/^-(a|s|as|sa)$/.test(code) || code.trim() === '') {
+if (code == null || /^-[\w]+$/.test(code)) {
   exit(1);
 } else {
   // read rc file
