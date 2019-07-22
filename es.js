@@ -27,12 +27,15 @@ const __es_global__ = {
   $$: req => require(require.resolve(req, { paths: [process.cwd()] }))
 };
 const __eval = chunk => {
-  const input = ('' + chunk).trim().split(/\r?\n/g);
-  (opt['a'] ? [input] : input).forEach(self => {
+  let input = ('' + chunk).trim();
+  if (!opt['f']) {
+    input = input.split(/\r?\n/g);
+  }
+  (opt['a'] || opt['f'] ? [input] : input).forEach(self => {
     with (__es_global__) {
       with (self) {
         const ret = eval(code);
-        ret && console.log(('' + ret).trim());
+        ret != null && console.log(('' + ret).trim());
       }
     }
   });
@@ -42,9 +45,7 @@ if (code == null || /^-[\w]+$/.test(code)) {
   exit(1);
 } else {
   // read rc file
-  [path.join(homedir(), '.es', 'config.js')]
-    .filter(existsSync)
-    .forEach(m => require(m));
+  [path.join(homedir(), '.es', 'config.js')].filter(existsSync).forEach(m => require(m));
 
   if (opt['s']) {
     stdin.on('data', chunk => __eval(chunk));
