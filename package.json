@@ -5,7 +5,7 @@
   "author": "lettenj61",
   "license": "MIT",
   "devDependencies": {
-    "cac": "^6.5.2",
+    "@types/node": "^12.7.2",
     "typescript": "^3.5.3"
   }
 }

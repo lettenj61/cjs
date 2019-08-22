@@ -21,7 +21,7 @@ For Windows users, I wrote wrapper script `cjs.cmd`.
 $ cjs (-abfs) <code>
 ```
 
-`es` evaluate JavaScript `code` you give, just like `node -p` command. Only difference is it apply evaluated code against inputs from `STDIN`.
+`cjs` evaluate JavaScript `code` you give, just like `node -p` command. Only difference is it apply evaluated code against inputs from `STDIN`.
 
 
 ### Behavior
