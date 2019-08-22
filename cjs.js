@@ -62,7 +62,7 @@ function handleHelp(opts1) {
   }
 
   if (opts1 === '-h' || opts1 === '--help') {
-    console.error('usage: cjs [-abdlpt|-h,--help|-v,--version] <code>...');
+    console.error('usage: cjs [-abcdpt|-h,--help|-v,--version] <code>...');
     exit(0);
   }
 }
