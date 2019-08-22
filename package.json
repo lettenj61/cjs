@@ -3,5 +3,9 @@
   "version": "0.1.0",
   "description": "Sketchy replacement and extension for `node -p`",
   "author": "lettenj61",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "cac": "^6.5.2",
+    "typescript": "^3.5.3"
+  }
 }
