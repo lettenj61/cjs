@@ -41,7 +41,7 @@ $ ls -1 | cjs -p 'toUpperCase().repeat(2)'
 
 * default: Decode input as `String`, process code for each line (with `readline` module).
 * `-c`: Input will be buffered and concatenated into single string.
-* `-a`: AWK mode. Split each line on whitespace (regular expression `/\s/g`).
+* `-a`: Convert input to array. By default, split each line on whitespace (regular expression `/\s/g`). When with `-c`, split entire input into lines.
 * `-b`: Treat input as raw `Buffer`. Input will be buffered and concatenated before the code get evaluated.
 * `-t`: Trim each line.
 

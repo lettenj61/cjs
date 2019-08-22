@@ -81,10 +81,10 @@ function main() {
 
     if (opts['d']) {
       const longOpts = {
-        'a': 'awk',
+        'a': 'array',
         'b': 'buffer',
+        'c': 'concat',
         'd': 'debug',
-        'l': 'line-buffer',
         'p': 'pretty',
         't': 'trim'
       };
@@ -113,7 +113,13 @@ function main() {
       if (opts['c']) {
         const lines = [];
         rl.on('line', line => lines.push(line));
-        rl.on('close', () => __run(lines.join('\n')));
+        rl.on('close', () => {
+          if (opts['a']) {
+            __eval(lines);
+          } else {
+            __run(lines.join('\n'));
+          }
+        });
       } else {
         rl.on('line', __run);
       }
