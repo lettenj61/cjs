@@ -48,7 +48,7 @@ $ ls -1 | cjs -p 'toUpperCase().repeat(2)'
 
 ## Output format
 
-If the `code` returns some value when it's get evaluated, `cjs` will print the result (with coercing it to `string`). If the code returns nothing (nullable value), it won't print anything.
+If the `code` returns some value, `cjs` will print the result (with coercing it to `string`). If the code returns nothing (`null` or `undefined` value), it won't print anything.
 
 If you prefer to use Node.js console formatters (and colored outputs), you can give `-p` option to use `console.log`:
 
