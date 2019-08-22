@@ -53,10 +53,10 @@ If the `code` returns some value, `cjs` will print the result (with coercing it 
 If you prefer to use Node.js console formatters (and colored outputs), you can give `-p` option to use `console.log`:
 
 ```sh
-$ cat package.json | cjs -l 'JSON.parse(self)'
+$ cat package.json | cjs -c 'JSON.parse(self)'
 [object Object]
 
-$ cat package.json | cjs -lp 'JSON.parse(self)'
+$ cat package.json | cjs -cp 'JSON.parse(self)'
 {
   name: 'cjs',
   version: '0.0.3',
@@ -80,7 +80,7 @@ It is useful when you need some extra dependency or setup code before executing 
 `cjs` expose `require` as `$` and `require.resolve` as `$$` to use them within one-liners.
 
 ```sh
-$ cat package.json | cjs -l 'val = JSON.parse(self)' '$("querystring").stringify(val)'
+$ cat package.json | cjs -c 'val = JSON.parse(self)' '$("querystring").stringify(val)'
 name=cjs&version=0.0.3&description=Sketchy%20replacement%20and%20extension%20for%20%60node%20-p%60&author=lettenj61&license=MIT&devDependencies=
 ```
 

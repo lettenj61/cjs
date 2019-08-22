@@ -49,7 +49,7 @@ function __run(chunk) {
   if (opts['t']) {
     input = input.trim();
   }
-  if (!opts['l'] && opts['a']) {
+  if (!opts['c'] && opts['a']) {
     input = input.split(/\s/g);
   }
   [input].forEach(__eval);
@@ -110,7 +110,7 @@ function main() {
 
       rl.on('SIGINT', () => process.exit(1));
 
-      if (opts['l']) {
+      if (opts['c']) {
         const lines = [];
         rl.on('line', line => lines.push(line));
         rl.on('close', () => __run(lines.join('\n')));
