@@ -37,7 +37,7 @@ function __eval(self) {
         if (opts['p']) {
           console.log(ret);
         } else {
-          stdout.write(Buffer.isBuffer(ret) ? ret : '' + ret);
+          stdout.write(Buffer.isBuffer(ret) ? ret : ret.toString());
         }
       }
     }
@@ -45,11 +45,14 @@ function __eval(self) {
 }
 
 function __run(chunk) {
-  let input = opts['b'] ? chunk : ('' + chunk).trim();
-  if (opts['l'] || opts['a']) {
-    input = input.split(/\r?\n/g);
+  let input = '' + chunk;
+  if (opts['t']) {
+    input = input.trim();
   }
-  (opts['l'] ? input : [input]).forEach(__eval);
+  if (!opts['l'] && opts['a']) {
+    input = input.split(/\s/g);
+  }
+  [input].forEach(__eval);
 }
 
 function handleHelp(opts1) {
@@ -59,7 +62,7 @@ function handleHelp(opts1) {
   }
 
   if (opts1 === '-h' || opts1 === '--help') {
-    console.error('usage: cjs -abdlps|-h,--help|-v,--version');
+    console.error('usage: cjs [-abdlpt|-h,--help|-v,--version] <code>...');
     exit(0);
   }
 }
@@ -78,12 +81,12 @@ function main() {
 
     if (opts['d']) {
       const longOpts = {
-        'a': 'array',
+        'a': 'awk',
         'b': 'buffer',
         'd': 'debug',
-        'l': 'line',
+        'l': 'line-buffer',
         'p': 'pretty',
-        's': 'stream'
+        't': 'trim'
       };
       console.error({
         options: Object.keys(opts).map(s => longOpts[s] || `unknown(${s})`),
@@ -91,7 +94,13 @@ function main() {
       });
     }
 
-    if (opts['l'] && opts['s']) {
+    if (opts['b']) {
+      const buff = [];
+      stdin.on('data', chunk => buff.push(chunk));
+      stdin.on('end', () => {
+        __eval(Buffer.concat(buff));
+      });
+    } else {
       const rl = readline.createInterface({
         input: stdin,
         output: null,
@@ -99,28 +108,15 @@ function main() {
         prompt: ''
       });
 
-      rl.on('line', line => {
-        if (opts['a']) {
-          line = line.split(/\s/g);
-        }
-        __eval(line);
-      })
-    } else if (opts['s']) {
-      stdin.on('data', chunk => {
-        let input = opts['b'] ? chunk : '' + chunk;
-        if (opts['a']) {
-          input = input.split(/\s/g);
-        }
-        __eval(input);
-      });
-    } else {
-      const buffs = [];
-      stdin.on('data', chunk => {
-        buffs.push(opts['b'] ? chunk : '' + chunk);
-      });
-      stdin.on('end', () => {
-        opts['b'] ? __run(Buffer.concat(buffs)) : __run(buffs.join(''));
-      });
+      rl.on('SIGINT', () => process.exit(1));
+
+      if (opts['l']) {
+        const lines = [];
+        rl.on('line', line => lines.push(line));
+        rl.on('close', () => __run(lines.join('\n')));
+      } else {
+        rl.on('line', __run);
+      }
     }
   }
 }
